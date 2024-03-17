@@ -24,6 +24,19 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: { msg: 'Invalid email format' },
         },
       },
+      username: {
+        type: DataTypes.STRING,
+        unique: { msg: 'Username already taken', name: 'username' },
+        allowNull: false,
+        validate: {
+          notNull: { msg: 'Username is required' },
+          isLowercase: { msg: 'All username charcacter must be lowercase' },
+          len: {
+            args: [6, 20],
+            msg: 'Username must be 6-20 character',
+          },
+        },
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -70,6 +83,14 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: 'role need to be specified' },
         },
       },
+      birthDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+      },
+      address: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
       sequelize,
@@ -84,6 +105,7 @@ module.exports = (sequelize, DataTypes) => {
     const password = await bcrypt.hash(user.password, 10);
     user.password = password;
   });
+
   User.prototype.comparePassword = async function (password) {
     try {
       return await bcrypt.compare(password, this.password);
@@ -92,5 +114,7 @@ module.exports = (sequelize, DataTypes) => {
       throw new Error('error comparing password');
     }
   };
+
+  User.beforeUpdate(async (user) => {});
   return User;
 };

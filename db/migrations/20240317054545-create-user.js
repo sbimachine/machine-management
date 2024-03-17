@@ -14,7 +14,11 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -40,6 +44,14 @@ module.exports = {
         type: Sequelize.ENUM,
         allowNull: false,
         values: ['supervisior', 'leader', 'teknisi', 'produksi'],
+      },
+      address: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      birth_date: {
+        type: Sequelize.DATEONLY,
+        allowNull: true,
       },
       created_at: {
         allowNull: false,
