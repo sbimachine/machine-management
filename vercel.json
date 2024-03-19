@@ -1,4 +1,6 @@
 {
+  "version": 2,
+  "name": "machine-management",
   "builds": [
     {
       "src": "./index.js",
