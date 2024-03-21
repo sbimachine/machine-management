@@ -16,7 +16,7 @@ module.exports = {
       'categories',
       [
         {
-          category_name: 'bonesaw',
+          category_name: 'Bonesaw',
           created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
           updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
@@ -26,7 +26,7 @@ module.exports = {
           updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
         {
-          category_name: 'vaccum',
+          category_name: 'Vaccum',
           created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
           updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
@@ -46,7 +46,7 @@ module.exports = {
           updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
         {
-          category_name: 'marinasi',
+          category_name: 'Marinasi',
           created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
           updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
