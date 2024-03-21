@@ -1,4 +1,5 @@
 const createMachine = require('../controllers/machine/createMachine');
+const deleteMachineController = require('../controllers/machine/deleteMachine');
 const editMachineController = require('../controllers/machine/editMachine');
 const getAllMachinesController = require('../controllers/machine/getAllMachines');
 const getMachineByIdController = require('../controllers/machine/getMachineById');
@@ -15,7 +16,6 @@ routes.post(
   createMachine
 );
 
-routes.get('/all', verifyToken, getAllMachinesController);
 routes.patch(
   '/edit/:id',
   verifyToken,
@@ -24,6 +24,9 @@ routes.patch(
   cloudinaryUpload('machine', true),
   editMachineController
 );
+routes.get('/all', verifyToken, getAllMachinesController);
+
 routes.get('/:id', verifyToken, getMachineByIdController);
+routes.delete('/:id', verifyToken, allowRole('supervisior'), deleteMachineController);
 
 module.exports = routes;
