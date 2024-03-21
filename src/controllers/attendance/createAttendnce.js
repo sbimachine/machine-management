@@ -14,11 +14,12 @@ const createAttendanceController = asyncErrorHandler(async (req, res, next) => {
   if (action) {
     const attendance = await Attendance.findByPk(attendanceId);
     if (!attendance) return next(new CustomError('Attendance not found', 404));
-
+    if (attendance.role !== 'present') return next(new CustomError('Cannot clock out because you are not Presented', 400));
     attendance.set({ clockOut: new Date(), status: action }, { returning: true });
     await attendance.save();
     return sendResponse(res, 'attendace updated', attendance);
   }
+
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
   const todayEnd = new Date();
