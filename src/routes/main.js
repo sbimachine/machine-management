@@ -4,6 +4,7 @@ const userRoutes = require('./user');
 const attendanceRoutes = require('./attendance');
 const categoryRoutes = require('./category');
 const machineRoutes = require('./machine');
+const repairementRoutes = require('./repairmant');
 
 const prefix = '/api';
 
@@ -12,6 +13,7 @@ routes.use(`${prefix}/user`, userRoutes);
 routes.use(`${prefix}/attendance`, attendanceRoutes);
 routes.use(`${prefix}/category`, categoryRoutes);
 routes.use(`${prefix}/machine`, machineRoutes);
+routes.use(`${prefix}/repairment`, repairementRoutes);
 
 routes.get('/', (_, res) => {
   console.log('berhasil');
