@@ -1,5 +1,5 @@
 const asyncErrorHandler = require('../asyncErrorHandler');
-const { Machine, Category, Sequelize } = require('../../models');
+const { Machine, Sequelize } = require('../../models');
 const sendResponse = require('../../utils/sendResponse');
 const getPagination = require('../../utils/getPagination');
 
@@ -8,7 +8,7 @@ const getAllMachinesController = asyncErrorHandler(async (req, res, next) => {
   let sortBy = null;
   if (sort === 'oldest') sortBy = [['buyDate', 'ASC']];
   if (sort === 'newest') sortBy = [['buyDate', 'DESC']];
-  if (sort === 'category') sortBy = [[Sequelize.literal('"category"."category_name"'), 'ASC']]; // Corrected sort logic
+  if (sort === 'category') sortBy = [['categoryName', 'ASC']]; // Corrected sort logic
   const offset = (parseInt(page) - 1) * parseInt(limit || 10);
 
   const conditions = {
@@ -22,15 +22,7 @@ const getAllMachinesController = asyncErrorHandler(async (req, res, next) => {
     ...(!sortBy ? {} : { order: sortBy }),
     offset,
     limit: parseInt(limit || 10),
-    attributes: [
-      'id',
-      'machineName',
-      'status',
-      'categoryId',
-      'buyDate',
-      [Sequelize.col('category.category_name'), 'categoryName'],
-    ],
-    include: [{ model: Category, as: 'category', attributes: [] }],
+    attributes: ['id', 'machineName', 'status', 'categoryId', 'categoryName', 'buyDate'],
   });
   const pagination = getPagination(count, page, limit);
 

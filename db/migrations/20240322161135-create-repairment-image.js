@@ -2,47 +2,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('machines', {
+    await queryInterface.createTable('repairment_image', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      machine_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      status: {
-        type: Sequelize.ENUM,
-        values: ['rusak', 'ready', 'perbaikan'],
-        defaultValue: 'ready',
-        allowNull: false,
-      },
-      image_url: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      buy_date: {
-        type: Sequelize.DATEONLY,
-        allowNull: false,
-      },
-      category_id: {
+      repairment_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'categories',
           key: 'id',
+          model: 'repairments',
         },
-        onDelete: 'no action',
-        onUpdate: 'no action',
       },
-      category_name: {
+      image_url: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -61,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('machines');
+    await queryInterface.dropTable('repairment_image');
   },
 };

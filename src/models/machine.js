@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      categoryName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: { notNull: { msg: 'Category name is required' } },
+      },
       status: {
         type: DataTypes.ENUM,
         values: ['rusak', 'ready', 'perbaikan'],

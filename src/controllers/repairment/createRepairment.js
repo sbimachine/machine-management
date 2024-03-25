@@ -23,7 +23,7 @@ const createRepairmentController = asyncErrorHandler(async (req, res, next) => {
   if (repairments && repairments.length > 0) return next(new CustomError('Machine already in repairment stage', 409));
 
   const repairment = await Repairment.create({ machineId, description });
-  sendResponse(res, 'repairment requested', repairment);
+  sendResponse(res, 'repairment requested', repairment, 201);
 });
 
 module.exports = createRepairmentController;
