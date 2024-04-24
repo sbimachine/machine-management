@@ -18,6 +18,10 @@ module.exports = {
         },
         onDelete: 'no action',
       },
+      repairment_date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       machine_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
