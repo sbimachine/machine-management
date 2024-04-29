@@ -28,7 +28,8 @@ const getRepairmentDetailController = asyncErrorHandler(async (req, res, next) =
       'description',
       'userId',
       'status',
-      'repairment_date'[(Sequelize.col('technician.first_name'), 'firstName')],
+      'repairment_date',
+      [Sequelize.col('technician.first_name'), 'firstName'],
       [Sequelize.col('technician.last_name'), 'lastName'],
     ],
   });

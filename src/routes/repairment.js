@@ -5,6 +5,7 @@ const editRepairmentController = require('../controllers/repairment/editRepairme
 const getRepairmentDetailController = require('../controllers/repairment/getRepairmentDetail');
 const getUserRepairmentJob = require('../controllers/repairment/getUserRepairmentJob');
 const reportRepairmentController = require('../controllers/repairment/reportRepairment');
+const updateStatusRepairmentController = require('../controllers/repairment/updateStatus');
 const { verifyToken, allowRole } = require('../middlewares/auth');
 const { upload, cloudinaryUpload } = require('../middlewares/upload');
 
@@ -21,6 +22,7 @@ routes.patch(
 );
 routes.patch('/edit/:id', verifyToken, allowRole('produksi'), editRepairmentController);
 routes.patch('/assign/:id', verifyToken, allowRole('leader'), assignRepairmentController);
+routes.patch('/update-status/:id', verifyToken, allowRole('leader'), updateStatusRepairmentController);
 routes.get('/', verifyToken, getUserRepairmentJob);
 routes.delete('/:id', verifyToken, allowRole('leader'), deleteRepairmentController);
 routes.get('/:id', verifyToken, getRepairmentDetailController);
