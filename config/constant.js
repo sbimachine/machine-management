@@ -6,4 +6,4 @@ const repairmentStatusMapper = {
   4: 'Selesai Diperbaiki',
 };
 
-module.exports = repairmentStatusMapper;
+module.exports = { repairmentStatusMapper };

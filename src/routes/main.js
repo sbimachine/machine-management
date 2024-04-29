@@ -4,7 +4,7 @@ const userRoutes = require('./user');
 const attendanceRoutes = require('./attendance');
 const categoryRoutes = require('./category');
 const machineRoutes = require('./machine');
-const repairementRoutes = require('./repairmant');
+const repairementRoutes = require('./repairment');
 
 const prefix = '/api';
 

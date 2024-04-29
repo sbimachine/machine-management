@@ -1,5 +1,7 @@
 const assignRepairmentController = require('../controllers/repairment/assignRepairment');
 const createRepairmentController = require('../controllers/repairment/createRepairment');
+const deleteRepairmentController = require('../controllers/repairment/deleteRepairment');
+const editRepairmentController = require('../controllers/repairment/editRepairment');
 const getRepairmentDetailController = require('../controllers/repairment/getRepairmentDetail');
 const getUserRepairmentJob = require('../controllers/repairment/getUserRepairmentJob');
 const reportRepairmentController = require('../controllers/repairment/reportRepairment');
@@ -17,8 +19,10 @@ routes.patch(
   cloudinaryUpload('repairment', true),
   reportRepairmentController
 );
-routes.patch('/assign/:id', verifyToken, assignRepairmentController);
+routes.patch('/edit/:id', verifyToken, allowRole('produksi'), editRepairmentController);
+routes.patch('/assign/:id', verifyToken, allowRole('leader'), assignRepairmentController);
 routes.get('/', verifyToken, getUserRepairmentJob);
+routes.delete('/:id', verifyToken, allowRole('leader'), deleteRepairmentController);
 routes.get('/:id', verifyToken, getRepairmentDetailController);
 
 module.exports = routes;

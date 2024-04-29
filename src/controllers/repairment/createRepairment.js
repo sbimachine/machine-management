@@ -1,8 +1,8 @@
 const asyncErrorHandler = require('../asyncErrorHandler');
 const sendResponse = require('../../utils/sendResponse');
 const { Repairment, Machine, Sequelize } = require('../../models');
-const repairmentStatusMapper = require('../../../config/constant');
 const CustomError = require('../../utils/CustomError');
+const { repairmentStatusMapper } = require('../../../config/constant');
 
 const createRepairmentController = asyncErrorHandler(async (req, res, next) => {
   const { machineId, description, repairmentDate } = req.body;
@@ -22,7 +22,7 @@ const createRepairmentController = asyncErrorHandler(async (req, res, next) => {
 
   if (repairments && repairments.length > 0) return next(new CustomError('Machine already in repairment stage', 409));
 
-  const repairment = await Repairment.create({ machineId, description, repairmentDate });
+  const repairment = await Repairment.create({ machineId, description, repairmentDate, status: repairmentStatusMapper[1] });
   sendResponse(res, 'repairment requested', repairment, 201);
 });
 
