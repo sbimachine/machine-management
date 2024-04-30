@@ -24,7 +24,7 @@ routes.patch('/edit/:id', verifyToken, allowRole('produksi'), editRepairmentCont
 routes.patch('/assign/:id', verifyToken, allowRole('leader'), assignRepairmentController);
 routes.patch('/update-status/:id', verifyToken, allowRole('leader'), updateStatusRepairmentController);
 routes.get('/', verifyToken, getUserRepairmentJob);
-routes.delete('/:id', verifyToken, allowRole('leader'), deleteRepairmentController);
+routes.delete('/:id', verifyToken, allowRole('produksi'), deleteRepairmentController);
 routes.get('/:id', verifyToken, getRepairmentDetailController);
 
 module.exports = routes;
