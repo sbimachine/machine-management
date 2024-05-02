@@ -22,6 +22,7 @@ const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
       'status',
       'userId',
       'status',
+      ['repairment_date', 'repairmentDate'],
       [Sequelize.col('machine.machine_name'), 'machineName'],
       [Sequelize.col('technician.first_name'), 'firstName'],
       [Sequelize.col('technician.last_name'), 'lastName'],
