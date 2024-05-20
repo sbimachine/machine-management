@@ -2,6 +2,7 @@ const asyncErrorHandler = require('../asyncErrorHandler');
 const { User } = require('../../models');
 const sendResponse = require('../../utils/sendResponse');
 const { Op } = require('sequelize');
+const CustomError = require('../../utils/CustomError');
 const getCurrentAttendance = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findByPk(req.userPayload.id);
   if (!user) return next(new CustomError('User not found', 404));

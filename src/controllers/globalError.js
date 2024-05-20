@@ -32,6 +32,7 @@ function devError(res, error) {
 }
 
 function prodError(res, error) {
+  console.log(error);
   if (error.isOperational)
     return res.status(error.statusCode).json({ status: error.status, message: error.message, data: {} });
   return res.status(500).json({

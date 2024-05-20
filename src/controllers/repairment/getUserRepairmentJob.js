@@ -1,21 +1,49 @@
 const asyncErrorHandler = require('../asyncErrorHandler');
-const { Repairment, Machine, Sequelize, User, Category } = require('../../models');
+const { Repairment, Machine, Sequelize, User } = require('../../models');
 const getPagination = require('../../utils/getPagination');
 const sendResponse = require('../../utils/sendResponse');
 const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
-  const { page = 1, limit = 10, userId, firstName, lastName, categoryId, machineName, status } = req.query;
+  const {
+    page = 1,
+    limit = 10,
+    userId,
+    firstName,
+    lastName,
+    categoryId,
+    machineName,
+    status,
+    sort,
+    repairmentDate,
+  } = req.query;
 
+  let sortBy = [['created_at', 'DESC']];
+  if (sort === 'repairmentDate') sortBy = [['repairment_date', 'DESC']];
+  if (sort === 'machineName') sortBy = [['machineName', 'ASC']];
+  const offset = (parseInt(page) - 1) * parseInt(limit || 10);
+
+  const { Op } = Sequelize;
   const conditions = {
     ...(userId ? { userId } : {}),
     ...(firstName ? { '$technician.first_name$': { [Sequelize.Op.iLike]: `%${firstName.toLowerCase()}%` } } : {}),
     ...(lastName ? { '$technician.last_name$': { [Sequelize.Op.iLike]: `%${lastName.toLowerCase()}%` } } : {}),
     ...(categoryId ? { '$machine.category_id$': categoryId } : {}),
-    ...(machineName ? { '$machine.machineName$': { [Sequelize.Op.iLike]: `%${machineName.toLowerCase()}%` } } : {}),
+    ...(machineName ? { '$machine.machine_name$': { [Sequelize.Op.iLike]: `%${machineName.toLowerCase()}%` } } : {}),
+    ...(repairmentDate
+      ? {
+          repairment_date: {
+            [Op.gte]: new Date(repairmentDate),
+            [Op.lt]: new Date(new Date(repairmentDate).setDate(new Date(repairmentDate).getDate() + 1)),
+          },
+        }
+      : {}),
     ...(status ? { status } : {}),
   };
 
   const { count, rows: repairments } = await Repairment.findAndCountAll({
     where: conditions,
+    ...(!sortBy ? {} : { order: sortBy }),
+    offset,
+    limit: parseInt(limit || 10),
     attributes: [
       'id',
       'createdAt',
