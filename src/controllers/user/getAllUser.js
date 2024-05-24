@@ -30,7 +30,7 @@ const getAllUserController = asyncErrorHandler(async (req, res, next) => {
     ...(!sortBy ? {} : { order: sortBy }),
     offset,
     limit: parseInt(limit || 10),
-    attributes: ['firstName', 'lastName', 'role', 'imageUrl', 'email', 'username'],
+    attributes: ['firstName', 'lastName', 'role', 'imageUrl', 'email', 'username', 'id'],
   });
   const pagination = getPagination(count, page, limit);
 
