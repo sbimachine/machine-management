@@ -14,6 +14,7 @@ const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
     status,
     sort,
     repairmentDate,
+    isReported,
   } = req.query;
 
   let sortBy = [['created_at', 'DESC']];
@@ -28,6 +29,7 @@ const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
     ...(lastName ? { '$technician.last_name$': { [Sequelize.Op.iLike]: `%${lastName.toLowerCase()}%` } } : {}),
     ...(categoryId ? { '$machine.category_id$': categoryId } : {}),
     ...(machineName ? { '$machine.machine_name$': { [Sequelize.Op.iLike]: `%${machineName.toLowerCase()}%` } } : {}),
+    ...(isReported ? { is_reported: isReported } : {}),
     ...(repairmentDate
       ? {
           repairment_date: {
@@ -50,6 +52,7 @@ const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
       'status',
       'userId',
       'status',
+      'isReported',
       ['repairment_date', 'repairmentDate'],
       [Sequelize.col('machine.machine_name'), 'machineName'],
       [Sequelize.col('technician.first_name'), 'firstName'],

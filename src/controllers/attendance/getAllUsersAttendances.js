@@ -7,7 +7,7 @@ const { excludeTimeStamp } = require('../../utils/responseFilter');
 const moment = require('moment');
 
 const getAllUsersAttendances = asyncErrorHandler(async (req, res, next) => {
-  const { sort = 'newest', status, page = 1, limit = 10, firstName, lastName, date, role } = req.query;
+  const { sort = 'newest', status, page = 1, limit = 10, firstName, lastName, date, role, name } = req.query;
   let sortBy = null;
   if (sort === 'oldest') sortBy = [['createdAt', 'ASC']];
   if (sort === 'newest') sortBy = [['createdAt', 'DESC']];
@@ -15,8 +15,14 @@ const getAllUsersAttendances = asyncErrorHandler(async (req, res, next) => {
 
   const conditions = {
     ...(status ? { status } : {}),
-    ...(firstName ? { '$user.first_name$': { [Sequelize.Op.iLike]: `%${firstName.toLowerCase()}%` } } : {}),
-    ...(lastName ? { '$user.last_name$': { [Sequelize.Op.iLike]: `%${lastName.toLowerCase()}%` } } : {}),
+    ...(name
+      ? {
+          [Op.or]: [
+            { '$user.first_name$': { [Op.iLike]: `%${name.toLowerCase()}%` } },
+            { '$user.last_name$': { [Op.iLike]: `%${name.toLowerCase()}%` } },
+          ],
+        }
+      : {}),
     ...(role ? { '$user.role$': role } : {}),
   };
 

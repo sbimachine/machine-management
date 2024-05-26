@@ -65,6 +65,11 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: 'description is required' },
         },
       },
+      isReported: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
