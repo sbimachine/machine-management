@@ -22,7 +22,7 @@ const getAllMachinesController = asyncErrorHandler(async (req, res, next) => {
     ...(!sortBy ? {} : { order: sortBy }),
     offset,
     limit: parseInt(limit || 10),
-    attributes: ['id', 'machineName', 'status', 'categoryId', 'categoryName', 'buyDate','imageUrl','description'],
+    attributes: ['id', 'machineName', 'status', 'categoryId', 'categoryName', 'buyDate', 'imageUrl', 'description'],
   });
   const pagination = getPagination(count, page, limit);
 

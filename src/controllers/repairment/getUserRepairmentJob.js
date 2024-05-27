@@ -2,6 +2,7 @@ const asyncErrorHandler = require('../asyncErrorHandler');
 const { Repairment, Machine, Sequelize, User } = require('../../models');
 const getPagination = require('../../utils/getPagination');
 const sendResponse = require('../../utils/sendResponse');
+const { repairmentStatusMapper } = require('../../../config/constant');
 const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
   const {
     page = 1,
@@ -15,6 +16,8 @@ const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
     sort,
     repairmentDate,
     isReported,
+    isProceed,
+    isNotProceed,
   } = req.query;
 
   let sortBy = [['created_at', 'DESC']];
@@ -29,6 +32,8 @@ const getUserRepairmentJob = asyncErrorHandler(async (req, res, next) => {
     ...(lastName ? { '$technician.last_name$': { [Sequelize.Op.iLike]: `%${lastName.toLowerCase()}%` } } : {}),
     ...(categoryId ? { '$machine.category_id$': categoryId } : {}),
     ...(machineName ? { '$machine.machine_name$': { [Sequelize.Op.iLike]: `%${machineName.toLowerCase()}%` } } : {}),
+    ...(isProceed ? { status: { [Sequelize.Op.notIn]: [repairmentStatusMapper[0], repairmentStatusMapper[1]] } } : {}),
+    ...(isNotProceed ? { status: { [Sequelize.Op.in]: [repairmentStatusMapper[0], repairmentStatusMapper[1]] } } : {}),
     ...(isReported ? { is_reported: isReported } : {}),
     ...(repairmentDate
       ? {
