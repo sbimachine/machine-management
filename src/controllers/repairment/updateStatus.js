@@ -15,9 +15,9 @@ const updateStatusRepairmentController = async (req, res, next) => {
 
     const machineStatus = repairmentStatusMapper[4] === status ? 'ready' : 'rusak';
     await repairment.save();
-    await transaction.commit();
 
     await Machine.update({ status: machineStatus }, { where: { id: repairment.machineId }, transaction });
+    await transaction.commit();
     sendResponse(res, 'success', repairment);
   } catch (error) {
     console.log(error);
