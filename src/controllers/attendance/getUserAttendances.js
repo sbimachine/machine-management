@@ -6,7 +6,7 @@ const { excludeTimeStamp } = require('../../utils/responseFilter');
 
 const getUserAttendancesController = asyncErrorHandler(async (req, res, next) => {
   const { sort, status, page = 1, limit = 10 } = req.query;
-  let sortBy = null;
+  let sortBy = [['createdAt', 'DESC']];
   if (sort === 'oldest') sortBy = [['createdAt', 'ASC']];
   if (sort === 'newest') sortBy = [['createdAt', 'DESC']];
   const offset = (parseInt(page) - 1) * parseInt(limit || 10);

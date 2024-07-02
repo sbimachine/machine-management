@@ -1,6 +1,6 @@
 const asyncErrorHandler = require('../asyncErrorHandler');
 const sendResponse = require('../../utils/sendResponse');
-const { Repairment, Machine, Sequelize, sequelize } = require('../../models');
+const { Repairment, Machine, Sequelize, sequelize, ReportedImage } = require('../../models');
 const CustomError = require('../../utils/CustomError');
 const { repairmentStatusMapper } = require('../../../config/constant');
 
@@ -31,6 +31,14 @@ const createRepairmentController = async (req, res, next) => {
     );
 
     await Machine.update({ status: 'perbaikan' }, { where: { id: machineId }, transaction });
+    const { images = [] } = req;
+    if (images.length === 0) {
+      return next(new CustomError('Reported image is required', 400));
+    }
+
+    const imageItems = images.map((imageUrl) => ({ imageUrl, repairment_id: repairment.id }));
+
+    await ReportedImage.bulkCreate(imageItems, { transaction });
     await transaction.commit();
     sendResponse(res, 'repairment requested', repairment, 201);
   } catch (error) {

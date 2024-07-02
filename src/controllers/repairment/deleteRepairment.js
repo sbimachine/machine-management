@@ -8,7 +8,7 @@ const deleteRepairmentController = asyncErrorHandler(async (req, res, next) => {
   const repairment = await Repairment.findByPk(req.params.id);
   if (!repairment) return next(new CustomError('Data not found', 404));
   if (repairment.status !== repairmentStatusMapper[0])
-    return next(new CustomError("Machine is in repairment stage, data can't be deleteed"));
+    return next(new CustomError("Machine is in repairment stage, data can't be deleted"));
 
   await repairment.destroy();
   sendResponse(res, 'success', repairment);

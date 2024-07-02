@@ -11,7 +11,14 @@ const { upload, cloudinaryUpload } = require('../middlewares/upload');
 
 const routes = require('express').Router();
 
-routes.post('/create', verifyToken, allowRole('produksi'), createRepairmentController);
+routes.post(
+  '/create',
+  verifyToken,
+  allowRole('produksi'),
+  upload.multiple,
+  cloudinaryUpload('repairement', true),
+  createRepairmentController
+);
 routes.patch(
   '/report/:id',
   verifyToken,

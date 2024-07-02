@@ -18,6 +18,15 @@ module.exports = {
         },
         onDelete: 'no action',
       },
+      leader_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          key: 'id',
+          model: 'users',
+        },
+        onDelete: 'no action',
+      },
       repairment_date: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -42,6 +51,11 @@ module.exports = {
         ],
         allowNull: false,
         defaultValue: 'Menunggu Konfirmasi',
+      },
+      category: {
+        type: Sequelize.ENUM,
+        values: ['Ringan', 'Berat'],
+        allowNull: true,
       },
       description: {
         type: Sequelize.STRING,

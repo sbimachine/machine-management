@@ -1,5 +1,5 @@
 const asyncErrorHandler = require('../asyncErrorHandler');
-const { Repairment, User, RepairmentImage, Machine, Sequelize, Category } = require('../../models');
+const { Repairment, User, RepairmentImage, Machine, Sequelize, Category, ReportedImage } = require('../../models');
 const CustomError = require('../../utils/CustomError');
 const sendResponse = require('../../utils/sendResponse');
 
@@ -22,6 +22,16 @@ const getRepairmentDetailController = asyncErrorHandler(async (req, res, next) =
         as: 'technician',
         attributes: [],
       },
+      {
+        model: User,
+        as: 'leader',
+        attributes: [],
+      },
+      {
+        model: ReportedImage,
+        as: 'reportedImages',
+        attributes: ['id', 'imageUrl'],
+      },
     ],
     attributes: [
       'id',
@@ -31,6 +41,8 @@ const getRepairmentDetailController = asyncErrorHandler(async (req, res, next) =
       ['repairment_date', 'repairmentDate'],
       [Sequelize.col('technician.first_name'), 'firstName'],
       [Sequelize.col('technician.last_name'), 'lastName'],
+      [Sequelize.col('leader.first_name'), 'leaderFirstName'],
+      [Sequelize.col('leader.last_name'), 'leaderLastName'],
     ],
   });
   if (!repairment) return next(new CustomError('repairment data not found', 404));
