@@ -1,4 +1,4 @@
-const { Repairment, ReportedImage, sequelize, Sequelize } = require('../../models');
+const { Repairment, ReportedImage, sequelize, Sequelize, Machine } = require('../../models');
 const { repairmentStatusMapper } = require('../../../config/constant');
 const CustomError = require('../../utils/CustomError');
 const sendResponse = require('../../utils/sendResponse');
@@ -21,6 +21,7 @@ const deleteRepairmentController = async (req, res, next) => {
       return next(new CustomError("Machine is in repairment stage, data can't be deleted"));
 
     const reportedImages = repairment.reportedImages.map((image) => image.id);
+    await Machine.update({ status: 'ready' }, { where: { id: repairment.machineId }, transaction });
     ReportedImage.destroy({ where: { id: { [Op.in]: reportedImages } }, transaction });
     await repairment.destroy({ transaction });
     await transaction.commit();
