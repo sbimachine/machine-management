@@ -7,8 +7,8 @@ const { repairmentStatusMapper } = require('../../../config/constant');
 const createRepairmentController = async (req, res, next) => {
   const transaction = await sequelize.transaction();
   try {
-    const { machineId, description, repairmentDate } = req.body;
-
+    const { machineId, description } = req.body;
+    const date = new Date();
     const machine = await Machine.findByPk(machineId);
     if (!machine) return next(new CustomError('Machine not found', 404));
 
@@ -24,7 +24,6 @@ const createRepairmentController = async (req, res, next) => {
       {
         machineId,
         description,
-        repairmentDate,
         status: repairmentStatusMapper[0],
       },
       { transaction }

@@ -28,11 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       repairmentDate: {
         type: DataTypes.DATE,
-        allowNull: false,
-        validate: {
-          notNull: { msg: 'Repairement date is required' },
-          isDate: { msg: 'Repairment date format is invalid' },
-        },
       },
       machineId: {
         type: DataTypes.INTEGER,
